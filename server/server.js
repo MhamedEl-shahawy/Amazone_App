@@ -1,21 +1,30 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const User = require("./models/user");
+
 
 const app = express();
+
+dotenv.config();
+
+// conncet mongoose
+mongoose.connect(process.env.DATABASE,{useNewUrlParser: true,useUnifiedTopology:true},(err)=>{
+	(err)? console.log(err):console.log("Connect To DATABASE ")
+})
 
 // midelware
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-// get data from server
-app.get("/",(req,res)=>{
-   res.json("hello amazone")
-});
-// post data to backend
-app.post("/",(req,res)=>{
-    console.log(req.body.name);
-});
+
+// reqiure apis
+const productRoutes = reqiure("./routes/product");
+
+app.use("/api",productRoutes);
+
 app.listen(3000,err=>{
    if(err){
         console.log(err);
