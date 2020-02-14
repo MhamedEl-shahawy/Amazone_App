@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const User = require("./models/user");
 
-
 const app = express();
 
 dotenv.config();
@@ -22,8 +21,16 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 // reqiure apis
 const productRoutes = reqiure("./routes/product");
+const categoryRoutes = reqiure("./routes/category");
+const ownerRoutes = reqiure("./routes/owners");
+
+
 
 app.use("/api",productRoutes);
+app.use("/api",categoryRoutes);
+app.use("/api",ownerRoutes);
+
+
 
 app.listen(3000,err=>{
    if(err){
